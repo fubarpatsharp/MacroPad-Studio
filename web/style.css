@@ -1,0 +1,592 @@
+/* ==========================================================================
+   MacroPad Studio &bull; Finlandica Text Typography & Enhanced Apple Pro Light
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Finlandica+Text:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&family=Finlandica:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap');
+
+:root {
+  --font-main: 'Finlandica Text', 'Finlandica', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --ease-spring: cubic-bezier(0.16, 1, 0.3, 1);
+  --apple-blue: #0071e3;
+  --apple-blue-hover: #0077ed;
+  --led-color: #ff3b30;
+  --led-glow: rgba(255, 59, 48, 0.95);
+  --led-dim: rgba(255, 59, 48, 0.38);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-main);
+  background-color: #f2f4f7;
+  color: #1d1d1f;
+  margin: 0;
+  padding: 0;
+  font-size: 15px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1 {
+  font-size: 26px;
+  line-height: 1.25;
+  font-weight: 700;
+  margin: 0;
+}
+
+h2 {
+  font-size: 19px;
+  line-height: 1.3;
+  font-weight: 600;
+  margin: 0;
+}
+
+
+/* ==========================================================================
+   Exact L-Shaped / Boot-Shaped Aluminum Chassis (Enlarged Scale)
+   ========================================================================== */
+
+.macropad-boot-chassis {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  filter: drop-shadow(0 25px 45px rgba(0, 0, 0, 0.13)) drop-shadow(0 6px 14px rgba(0, 0, 0, 0.05));
+  user-select: none;
+}
+
+/* Aluminum Surface Material with Realistic Bead-Blasted Anodized Finish */
+.aluminum-unibody {
+  background: linear-gradient(135deg, #e9edf2 0%, #dfe4ea 50%, #d5dae2 100%);
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  box-shadow: 
+    inset 0 1px 1px 0 rgba(255, 255, 255, 0.95),
+    inset 0 -1.5px 2px 0 rgba(0, 0, 0, 0.1),
+    0 0 0 1px rgba(0, 0, 0, 0.06);
+}
+
+/* Top Keycaps Section (3 Columns x 4 Rows) */
+.chassis-key-section {
+  width: 278px;
+  margin-left: 98px; /* Aligned over Knob 2 & 3 base */
+  border-top-left-radius: 26px;
+  border-top-right-radius: 26px;
+  padding: 24px 18px 14px 18px;
+  position: relative;
+  z-index: 10;
+}
+
+/* Bottom Knobs Section with Extended Bottom-Left Lobe */
+.chassis-base-section {
+  width: 376px; /* Spans Knob 1 hero lobe + base */
+  border-bottom-left-radius: 54px; /* Organic curve on enlarged Knob 1 lobe */
+  border-bottom-right-radius: 30px;
+  border-top-left-radius: 54px;
+  margin-top: -8px;
+  padding: 18px 20px 24px 20px;
+  position: relative;
+  z-index: 11;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Concave transition fillet between key section and Knob 1 lobe */
+.chassis-instep-fillet {
+  position: absolute;
+  top: -26px;
+  left: 70px;
+  width: 28px;
+  height: 28px;
+  border-bottom-right-radius: 18px;
+  box-shadow: 10px 10px 0 0 #dfe4ea;
+  pointer-events: none;
+  z-index: 9;
+}
+
+/* Hex Assembly Screws */
+.chassis-screw {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #b8bec8 0%, #8b929d 100%);
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.4), 0 1px 0 rgba(255, 255, 255, 0.8);
+  position: absolute;
+}
+.screw-top-left { top: 10px; left: 12px; }
+.screw-top-right { top: 10px; right: 12px; }
+.screw-mid-lobe { bottom: 74px; left: 108px; }
+.screw-bottom-lobe { bottom: 18px; left: 108px; }
+
+/* Status Notch (Layer Indicator Split by Three) */
+.chassis-status-notch {
+  position: absolute;
+  top: 13px;
+  right: 122px;
+  width: 32px;
+  height: 9px;
+  border-radius: 5px;
+  background: #1d1f24;
+  box-shadow: inset 0 1.5px 2px rgba(0, 0, 0, 0.8), 0 1px 0 rgba(255, 255, 255, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 3px;
+  gap: 3px;
+}
+
+.layer-seg-dot {
+  flex: 1;
+  height: 4px;
+  border-radius: 2px;
+  background: #393c44;
+  transition: background-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.layer-seg-dot.active {
+  background: #0071e3;
+  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.6);
+}
+
+/* Sensor Notch (Hardware Connection Green Indicator) */
+.chassis-sensor-notch {
+  position: absolute;
+  top: 18px;
+  right: 20px;
+  width: 10px;
+  height: 10px;
+  border-radius: 3px;
+  background: #2b2e34;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.7), 0 1px 0 rgba(255, 255, 255, 0.7);
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.chassis-sensor-notch.sensor-connected {
+  background: #34c759 !important;
+  box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.7), 0 1px 0 rgba(255, 255, 255, 0.8) !important;
+}
+
+/* ==========================================================================
+   Mechanical Keycaps (Tactile Solid Black Fill with Specular Edge)
+   ========================================================================== */
+
+.keycap-cell {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 56px;
+}
+
+.keycap-item {
+  position: relative;
+  z-index: 2; /* Strictly on top of the underglow */
+  background: #111215;
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  width: 100%;
+  height: 100%;
+  box-shadow: 
+    0 5px 12px -2px rgba(0, 0, 0, 0.35),
+    0 2px 4px -1px rgba(0, 0, 0, 0.25),
+    inset 0 1px 1px 0 rgba(255, 255, 255, 0.2),
+    inset 0 -2px 4px 0 rgba(0, 0, 0, 0.5);
+  transition: transform 0.12s var(--ease-spring), box-shadow 0.15s, border-color 0.15s, outline 0.15s;
+  cursor: pointer;
+  user-select: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  outline: none;
+}
+
+.keycap-item:hover {
+  background: #16171b;
+  transform: translateY(-1px);
+  border-color: rgba(255, 255, 255, 0.22);
+}
+
+.keycap-item:active {
+  transform: translateY(2px) scale(0.97);
+  background: #111215;
+  box-shadow: 
+    0 1px 2px rgba(0, 0, 0, 0.4),
+    inset 0 2px 5px rgba(0, 0, 0, 0.6);
+}
+
+.keycap-item.key-selected {
+  background: #111215 !important;
+  border-color: #0071e3 !important;
+  outline: 2.5px solid #0071e3;
+  outline-offset: 1px;
+  box-shadow: 
+    0 4px 10px rgba(0, 0, 0, 0.18),
+    inset 0 1px 0 rgba(255, 255, 255, 0.25) !important;
+  transform: translateY(-1px);
+}
+
+.keycap-item.key-physically-pressed {
+  transform: translateY(2px) scale(0.96) !important;
+  background: #111215 !important;
+  border-color: #0071e3 !important;
+  outline: 2.5px solid #0071e3;
+  outline-offset: 1px;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3), inset 0 2px 6px rgba(0, 0, 0, 0.6) !important;
+}
+
+.keycap-item:focus-visible {
+  outline: 2px solid #0071e3;
+  outline-offset: 2px;
+}
+
+/* Under-Key LED Glow Wells (Positioned BELOW the Keycaps in Stacking Order) */
+.key-led-glow {
+  position: absolute;
+  top: -8px;
+  bottom: -8px;
+  left: -8px;
+  right: -8px;
+  border-radius: 22px;
+  pointer-events: none;
+  z-index: 1; /* Below the button (which has z-index: 2) */
+  opacity: 0;
+  filter: blur(10px);
+  transition: opacity 0.25s cubic-bezier(0.16, 1, 0.3, 1), transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Mode 0: No color glowing (LEDs Off) */
+.effect-0 .key-led-glow,
+.effect-off .key-led-glow {
+  opacity: 0 !important;
+  background: none !important;
+}
+
+/* Mode 1: Static color glowing (Always) */
+.effect-1 .key-led-glow,
+.effect-static .key-led-glow {
+  opacity: 1;
+  background: radial-gradient(circle, var(--led-glow) 0%, var(--led-dim) 55%, transparent 78%);
+}
+
+/* Single-Pass Flash Burst Keyframe for Modes 2, 3, 4 */
+@keyframes glow-flash-burst {
+  0% {
+    opacity: 1;
+    transform: scale(1.08);
+  }
+  35% {
+    opacity: 0.95;
+    transform: scale(1.04);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1);
+  }
+}
+
+/* Mode 2 (Column Sweep) & Mode 3 (Upward Cascade) Flash Class - Snappy Individual Key Flash */
+.glow-flash-active {
+  opacity: 1 !important;
+  background: radial-gradient(circle, var(--led-glow) 0%, var(--led-dim) 50%, transparent 75%) !important;
+  animation: glow-flash-burst 0.22s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Mode 4: White Flash Under the Clicked Button */
+.glow-white-active {
+  opacity: 1 !important;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.98) 0%, rgba(255, 255, 255, 0.72) 40%, rgba(200, 225, 255, 0.3) 65%, transparent 78%) !important;
+  animation: glow-flash-burst 0.28s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* ==========================================================================
+   Machined Rotary Encoders (Knob 1 is 1.25x Hero Size)
+   ========================================================================== */
+
+/* Standard Encoders (Knobs 2 & 3) */
+.knob-container {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #383b42 0%, #1e2025 100%);
+  border: 2px solid #555a64;
+  box-shadow: 
+    0 8px 16px -2px rgba(0, 0, 0, 0.35),
+    0 2px 5px rgba(0, 0, 0, 0.2),
+    inset 0 1px 1px rgba(255, 255, 255, 0.25);
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: transform 0.15s var(--ease-spring), border-color 0.15s, box-shadow 0.15s;
+  outline: none;
+}
+
+.knob-container:hover {
+  transform: scale(1.03);
+  border-color: #777e8b;
+}
+
+.knob-container:active {
+  transform: scale(0.96);
+}
+
+.knob-core {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #2b2e34 0%, #17181b 100%);
+  border: 1px solid #454952;
+  box-shadow: 
+    0 2px 4px rgba(0, 0, 0, 0.4),
+    inset 0 1px 1px rgba(255, 255, 255, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  transition: transform 0.15s ease;
+}
+
+.knob-tick-indicator {
+  position: absolute;
+  top: 4px;
+  width: 2px;
+  height: 8px;
+  background: #f1f3f5;
+  border-radius: 1px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+/* Hero Knob 1 (1.25x Scale on the Bottom-Left Lobe) */
+.knob-container.knob-hero {
+  width: 88px;
+  height: 88px;
+}
+
+.knob-container.knob-hero .knob-core {
+  width: 63px;
+  height: 63px;
+}
+
+.knob-container.knob-hero .knob-tick-indicator {
+  height: 10px;
+  top: 5px;
+}
+
+.knob-container.knob-selected {
+  border-color: #0071e3 !important;
+  outline: 2.5px solid #0071e3;
+  outline-offset: 2px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25) !important;
+}
+
+.knob-rotated-left {
+  transform: rotate(-35deg) !important;
+  transition: transform 0.15s ease;
+}
+.knob-rotated-right {
+  transform: rotate(35deg) !important;
+  transition: transform 0.15s ease;
+}
+.knob-pressed {
+  transform: scale(0.93) !important;
+  border-color: #0071e3 !important;
+}
+
+/* ==========================================================================
+   macOS Frosted Glass & Floating UI Islands
+   ========================================================================== */
+
+.macos-card {
+  background: rgba(255, 255, 255, 0.84);
+  backdrop-filter: blur(28px);
+  -webkit-backdrop-filter: blur(28px);
+  border: 1px solid rgba(0, 0, 0, 0.07);
+  padding: 24px;
+  box-shadow: 
+    0 12px 32px -4px rgba(0, 0, 0, 0.05),
+    0 2px 8px -1px rgba(0, 0, 0, 0.03);
+}
+
+/* Floating Bottom Action Island (Enlarged) */
+.floating-bottom-island {
+  position: fixed;
+  bottom: 28px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 50;
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(36px);
+  -webkit-backdrop-filter: blur(36px);
+  border: 1px solid rgba(0, 0, 0, 0.09);
+  box-shadow: 
+    0 20px 48px -8px rgba(0, 0, 0, 0.15),
+    0 6px 16px -2px rgba(0, 0, 0, 0.06);
+  border-radius: 9999px;
+  padding: 10px 22px;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  transition: transform 0.2s var(--ease-spring), box-shadow 0.2s;
+}
+
+.floating-bottom-island:hover {
+  box-shadow: 
+    0 24px 54px -8px rgba(0, 0, 0, 0.18),
+    0 8px 20px -2px rgba(0, 0, 0, 0.08);
+}
+
+/* Non-blocking macOS Floating Toast HUD */
+.macos-hud-toast {
+  position: fixed;
+  top: 24px;
+  left: 50%;
+  transform: translateX(-50%) translateY(-30px);
+  opacity: 0;
+  pointer-events: none;
+  z-index: 60;
+  background: rgba(30, 32, 38, 0.94);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  color: #ffffff;
+  padding: 12px 26px;
+  border-radius: 9999px;
+  box-shadow: 0 14px 35px rgba(0, 0, 0, 0.25);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 14px;
+  font-weight: 500;
+  transition: transform 0.25s var(--ease-spring), opacity 0.2s ease;
+}
+
+.macos-hud-toast.toast-visible {
+  transform: translateX(-50%) translateY(0);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Laser Scan Beam for Read Animation */
+.scan-beam {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2.5px;
+  background: linear-gradient(90deg, transparent, #0071e3 50%, transparent);
+  pointer-events: none;
+  z-index: 25;
+  animation: scan-beam-anim 1.5s ease-in-out infinite;
+}
+
+@keyframes scan-beam-anim {
+  0% { transform: translateY(0); opacity: 0; }
+  20% { opacity: 1; }
+  80% { opacity: 1; }
+  100% { transform: translateY(340px); opacity: 0; }
+}
+
+@keyframes live-pulse {
+  0% { transform: scale(0.92); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.6); }
+  70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(16, 185, 129, 0); }
+  100% { transform: scale(0.92); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+}
+
+.live-indicator, .status-pulse-live {
+  animation: live-pulse 2s infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #c5cbd3;
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #a4acb7;
+}
+
+/* Fullscreen Frosted Flashing Loader Overlay State */
+#flash-loader-overlay.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* ==========================================================================
+   macOS Pro Light Custom Dropdowns (Select Elements & Popovers)
+   ========================================================================== */
+
+.macos-select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  font-family: var(--font-main);
+  background-color: rgba(0, 0, 0, 0.04);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3E%3Cpath stroke='%236e6e73' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.8' d='M7 7.5l3-3 3 3M7 12.5l3 3 3-3'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-size: 13px 13px;
+  padding-left: 14px;
+  padding-right: 30px !important;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 9999px;
+  color: #1d1d1f;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.4;
+  cursor: pointer;
+  outline: none;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03), inset 0 1px 0 rgba(255, 255, 255, 0.85);
+  transition: all 0.15s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.macos-select:hover {
+  background-color: rgba(0, 0, 0, 0.07);
+  border-color: rgba(0, 0, 0, 0.16);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05), inset 0 1px 0 rgba(255, 255, 255, 0.95);
+}
+
+.macos-select:focus,
+.macos-select:focus-visible {
+  border-color: #0071e3;
+  box-shadow: 0 0 0 3px rgba(0, 113, 227, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.95);
+  background-color: #ffffff;
+}
+
+.macos-select optgroup {
+  font-family: var(--font-main);
+  font-size: 10.5px;
+  font-weight: 700;
+  color: #86868b;
+  background-color: #f5f5f7;
+  padding: 6px 10px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.macos-select option {
+  background-color: #ffffff;
+  color: #1d1d1f;
+  font-family: var(--font-main);
+  font-size: 12.5px;
+  font-weight: 500;
+  padding: 6px 12px;
+}
+

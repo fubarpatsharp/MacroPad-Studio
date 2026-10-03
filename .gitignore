@@ -1,0 +1,21 @@
+__pycache__/
+*.pyc
+*.hex
+macropad_sent_packets.*
+
+# Reverse-engineering artifacts (not needed to use the tool)
+capture
+capture_*
+*.pcap
+all_interrupt_data.txt
+MINI_KEYBOARD.exe.c
+
+# Local agent, IDE and OS files
+.agent/
+.claude/
+.gemini/
+.impeccable/
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Primary SEO Meta Tags -->
+  <title>MacroPad Studio • Driverless USB Keypad Configurator (1189:8840)</title>
+  <meta name="title" content="MacroPad Studio • Driverless USB Keypad Configurator (1189:8840)">
+  <meta name="description" content="Configure your 12-key + 2/3-knob USB Macro Pad (VID 1189:8840) driverless in browser via WebHID. Visual 3-layer mapping, keystroke macros, LED lighting animations, media & mouse controls.">
+  <meta name="keywords" content="MacroPad Studio, USB macropad, WebHID, 1189:8840, CH552G, CH57x, macro pad configurator, mechanical keypad, rotary encoder, keyboard macros, fubarpatsharp, Ruslan Parkhomenko">
+  <meta name="author" content="fubarpatsharp (Ruslan Parkhomenko)">
+  <meta name="robots" content="index, follow">
+  <meta name="theme-color" content="#f2f4f7">
+
+  <!-- Favicon & Apple Touch Icon -->
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="alternate icon" href="favicon.svg">
+  <link rel="apple-touch-icon" href="favicon.svg">
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="MacroPad Studio">
+  <meta property="og:title" content="MacroPad Studio • Driverless USB Keypad Configurator (1189:8840)">
+  <meta property="og:description" content="100% driverless in-browser configuration for 12-key + 2/3-knob USB macro pads (1189:8840). Visual keycap layout, real-time LED preview, macro builder, and 1-click EEPROM flashing.">
+  <meta property="og:image" content="favicon.svg">
+
+  <!-- Twitter / X -->
+  <meta property="twitter:card" content="summary">
+  <meta property="twitter:title" content="MacroPad Studio • Driverless USB Keypad Configurator (1189:8840)">
+  <meta property="twitter:description" content="100% driverless in-browser configuration for 12-key + 2/3-knob USB macro pads (1189:8840) via WebHID.">
+  <meta property="twitter:image" content="favicon.svg">
+  <meta name="twitter:creator" content="@fubarpatsharp">
+
+  <!-- Structured Data (JSON-LD) for Search Engines -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "MacroPad Studio",
+    "operatingSystem": "All (WebHID in Chromium)",
+    "applicationCategory": "UtilitiesApplication",
+    "description": "Driverless web configurator for 12-key and 2/3-knob USB macro pads (VID 0x1189, PID 0x8840).",
+    "author": {
+      "@type": "Person",
+      "name": "Ruslan Parkhomenko",
+      "alternateName": "fubarpatsharp"
+    },
+    "isBasedOn": {
+      "@type": "SoftwareSourceCode",
+      "name": "macropad",
+      "codeRepository": "https://github.com/mikhailvs/macropad"
+    },
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    }
+  }
+  </script>
+
+  <!-- Typography & Stylesheets -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Finlandica+Text:ital,wght@0,400..700;1,400..700&family=Finlandica:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="min-h-screen w-full bg-[#f2f4f7] text-[#1d1d1f] flex flex-col select-none antialiased">
+
+  <!-- ========================================== -->
+  <!-- Top macOS Titlebar Strip                   -->
+  <!-- ========================================== -->
+  <header class="h-16 w-full bg-white/75 backdrop-blur-xl border-b border-black/[0.06] px-6 sm:px-8 flex items-center justify-between flex-shrink-0 z-30">
+    
+    <!-- Left: App Brand, Creator Credit & WebHID Connect -->
+    <div class="flex items-center space-x-4">
+      <div class="flex items-center space-x-3">
+        <div class="w-8 h-8 rounded-full bg-gradient-to-b from-[#0071e3] to-[#005bb5] p-0.5 shadow-sm flex items-center justify-center">
+          <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z"/>
+          </svg>
+        </div>
+        <div class="flex flex-col">
+          <span class="font-bold text-base tracking-tight text-[#1d1d1f] leading-none">MacroPad Studio</span>
+          <span class="text-[10px] font-semibold text-[#86868b] mt-0.5">by <a href="https://github.com/fubarpatsharp" target="_blank" rel="noopener noreferrer" class="hover:text-[#0071e3] transition">fubarpatsharp</a> (Ruslan Parkhomenko)</span>
+        </div>
+      </div>
+
+      <!-- WebHID Device Selector / Connect Button -->
+      <button id="btn-connect" type="button" title="Connect directly to hardware via WebHID" class="flex items-center space-x-2.5 bg-black/[0.04] hover:bg-black/[0.08] px-4 py-2 rounded-full border border-black/[0.06] text-xs font-semibold text-[#1d1d1f] transition active:scale-95">
+        <span id="device-status-dot" class="w-2 h-2 rounded-full bg-zinc-400"></span>
+        <span id="device-pill-name">Connect USB (1189:8840)</span>
+        <svg class="w-3.5 h-3.5 text-[#86868b]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M19 9l-7 7-7-7"/></svg>
+      </button>
+    </div>
+
+    <!-- Right: Header Utility Controls -->
+    <div class="flex items-center space-x-2.5">
+      <button id="btn-import-json" type="button" title="Import JSON layout file" class="flex items-center space-x-2 px-4 py-2 rounded-full border border-black/[0.08] hover:bg-black/[0.04] text-[#48484a] text-xs font-semibold transition active:scale-95">
+        <svg class="w-3.5 h-3.5 text-[#86868b]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/></svg>
+        <span>Import</span>
+      </button>
+      <button id="btn-export-json" type="button" title="Export JSON layout file" class="flex items-center space-x-2 px-4 py-2 rounded-full border border-black/[0.08] hover:bg-black/[0.04] text-[#48484a] text-xs font-semibold transition active:scale-95">
+        <svg class="w-3.5 h-3.5 text-[#86868b]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+        <span>Export</span>
+      </button>
+      <input type="file" id="file-import" accept=".json" class="hidden">
+    </div>
+  </header>
+
+  <!-- Non-Blocking macOS Floating Toast HUD Notification -->
+  <div id="macos-toast" class="macos-hud-toast">
+    <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+    <span id="macos-toast-text">Hardware Flashed Successfully</span>
+  </div>
+
+  <!-- Browser WebHID Support Warning Banner -->
+  <div id="webhid-warning" class="hidden bg-amber-500/10 border-b border-amber-500/20 px-6 py-2 text-xs text-amber-900 flex items-center space-x-2 flex-shrink-0">
+    <svg class="w-4 h-4 text-amber-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
+    <span>WebHID is available in Chrome, Edge, and Brave. You can still design, simulate, and export layouts offline.</span>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- Main Studio Workspace (2-Column Canvas)    -->
+  <!-- ========================================== -->
+  <div class="flex-1 grid grid-cols-1 lg:grid-cols-12 overflow-hidden pb-28">
+
+    <!-- ======================================== -->
+    <!-- Left Pane: Virtual Hardware Studio       -->
+    <!-- ======================================== -->
+    <section class="lg:col-span-5 2xl:col-span-6 p-6 lg:p-12 flex flex-col items-center justify-center overflow-y-auto relative border-b lg:border-b-0 lg:border-r border-black/[0.06]">
+      
+      <!-- Exact L-Shaped / Boot-Shaped Hardware Chassis -->
+      <div class="macropad-boot-chassis my-auto transition-transform">
+        
+        <!-- Scan Beam for Read Animation -->
+        <div id="scan-beam" class="scan-beam hidden"></div>
+
+        <!-- Upper Section: 12 Keycaps in 3 Columns x 4 Rows -->
+        <div class="aluminum-unibody chassis-key-section">
+          <!-- Hex Screws -->
+          <div class="chassis-screw screw-top-left"></div>
+          <div class="chassis-screw screw-top-right"></div>
+
+          <!-- 3x4 Mechanical Keycaps Grid -->
+          <div id="keys-grid" class="grid grid-cols-3 gap-3">
+            <!-- Dynamically rendered by ChassisView: 3 cols x 4 rows -->
+          </div>
+        </div>
+
+        <!-- Instep Fillet (Smooth Concave Transition) -->
+        <div class="chassis-instep-fillet"></div>
+
+        <!-- Lower Section: Extended Base with 3 Knobs (Lobe + Base) -->
+        <div class="aluminum-unibody chassis-base-section">
+          <!-- Screws -->
+          <div class="chassis-screw screw-mid-lobe"></div>
+          <div class="chassis-screw screw-bottom-lobe"></div>
+
+          <!-- Status Notch: Signalizes Layer Split by Three -->
+          <div id="status-notch" class="chassis-status-notch" title="Hardware Layer Status Indicator">
+            <div id="layer-seg-1" class="layer-seg-dot active"></div>
+            <div id="layer-seg-2" class="layer-seg-dot"></div>
+            <div id="layer-seg-3" class="layer-seg-dot"></div>
+          </div>
+
+          <!-- Sensor Notch: Lits Green When Device is Connected -->
+          <div id="sensor-notch" class="chassis-sensor-notch" title="USB Hardware Connection Sensor"></div>
+
+          <!-- Knob 1 (1.25x Hero Size on Extended Bottom-Left Lobe) -->
+          <div class="flex flex-col items-center">
+            <span class="text-[10px] font-bold text-[#6e6e73] uppercase tracking-wider mb-1.5">Knob 1</span>
+            <div id="knob1-dial-wrap" class="knob-container knob-hero group cursor-pointer" title="Knob 1 Center Press">
+              <div class="knob-tick-indicator"></div>
+              <div id="knob1-dial" class="knob-core">
+                <span id="knob1-dial-text" class="text-[10px] font-bold text-zinc-300 group-hover:text-white transition">Push</span>
+              </div>
+            </div>
+            <div class="flex items-center space-x-1.5 mt-2.5">
+              <button type="button" id="btn-knob1_left" class="p-1.5 rounded-full bg-black/[0.06] hover:bg-black/[0.12] text-[#515154] hover:text-[#1d1d1f] transition" title="Knob 1 Turn CCW">
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M3 10h10a5 5 0 015 5v2m-15-7l4-4m-4 4l4 4"/></svg>
+              </button>
+              <button type="button" id="btn-knob1_right" class="p-1.5 rounded-full bg-black/[0.06] hover:bg-black/[0.12] text-[#515154] hover:text-[#1d1d1f] transition" title="Knob 1 Turn CW">
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M21 10H11a5 5 0 00-5 5v2m15-7l-4-4m4 4l-4 4"/></svg>
+              </button>
+            </div>
+          </div>
+
+          <!-- Knob 2 (Center Knob) -->
+          <div class="flex flex-col items-center">
+            <span class="text-[10px] font-bold text-[#6e6e73] uppercase tracking-wider mb-1.5">Knob 2</span>
+            <div id="knob2-dial-wrap" class="knob-container group cursor-pointer" title="Knob 2 Center Press">
+              <div class="knob-tick-indicator"></div>
+              <div id="knob2-dial" class="knob-core">
+                <span id="knob2-dial-text" class="text-[10px] font-bold text-zinc-300 group-hover:text-white transition">Push</span>
+              </div>
+            </div>
+            <div class="flex items-center space-x-1.5 mt-2.5">
+              <button type="button" id="btn-knob2_left" class="p-1.5 rounded-full bg-black/[0.06] hover:bg-black/[0.12] text-[#515154] hover:text-[#1d1d1f] transition" title="Knob 2 Turn CCW">
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M3 10h10a5 5 0 015 5v2m-15-7l4-4m-4 4l4 4"/></svg>
+              </button>
+              <button type="button" id="btn-knob2_right" class="p-1.5 rounded-full bg-black/[0.06] hover:bg-black/[0.12] text-[#515154] hover:text-[#1d1d1f] transition" title="Knob 2 Turn CW">
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M21 10H11a5 5 0 00-5 5v2m15-7l-4-4m4 4l-4 4"/></svg>
+              </button>
+            </div>
+          </div>
+
+          <!-- Knob 3 (Right Knob) -->
+          <div class="flex flex-col items-center">
+            <span class="text-[10px] font-bold text-[#6e6e73] uppercase tracking-wider mb-1.5">Knob 3</span>
+            <div id="knob3-dial-wrap" class="knob-container group cursor-pointer" title="Knob 3 Center Press">
+              <div class="knob-tick-indicator"></div>
+              <div id="knob3-dial" class="knob-core">
+                <span id="knob3-dial-text" class="text-[10px] font-bold text-zinc-300 group-hover:text-white transition">Push</span>
+              </div>
+            </div>
+            <div class="flex items-center space-x-1.5 mt-2.5">
+              <button type="button" id="btn-knob3_left" class="p-1.5 rounded-full bg-black/[0.06] hover:bg-black/[0.12] text-[#515154] hover:text-[#1d1d1f] transition" title="Knob 3 Turn CCW">
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M3 10h10a5 5 0 015 5v2m-15-7l4-4m-4 4l4 4"/></svg>
+              </button>
+              <button type="button" id="btn-knob3_right" class="p-1.5 rounded-full bg-black/[0.06] hover:bg-black/[0.12] text-[#515154] hover:text-[#1d1d1f] transition" title="Knob 3 Turn CW">
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M21 10H11a5 5 0 00-5 5v2m15-7l-4-4m4 4l-4 4"/></svg>
+              </button>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- ======================================== -->
+    <!-- Right Pane: macOS Control Inspector      -->
+    <!-- ======================================== -->
+    <main class="lg:col-span-7 2xl:col-span-6 p-6 lg:p-10 overflow-y-auto space-y-6">
+      
+      <!-- Inspector Header Card -->
+      <div class="macos-card rounded-3xl p-6 sm:p-8 space-y-6">
+        
+        <!-- Live Physical Key Tracking HUD -->
+        <div class="flex items-center justify-between p-4 rounded-2xl bg-black/[0.03]">
+          <div class="flex items-center space-x-3">
+            <span id="live-event-badge" class="w-2.5 h-2.5 rounded-full bg-emerald-500 live-indicator"></span>
+            <span id="live-event-text" class="text-sm font-medium text-[#48484a]">Tracking active &bull; Tap key or turn knob</span>
+          </div>
+
+          <label class="flex items-center space-x-2 cursor-pointer select-none text-xs font-semibold text-[#48484a] hover:text-[#1d1d1f] transition">
+            <input type="checkbox" id="toggle-autoselect" checked class="w-4 h-4 rounded accent-[#0071e3] cursor-pointer">
+            <span>Auto-Select on Press</span>
+          </label>
+        </div>
+
+        <!-- Selected Control Header -->
+        <div class="flex items-center justify-between pb-5 border-b border-black/[0.06]">
+          <div>
+            <h1 id="selected-control-name" class="text-2xl font-bold tracking-tight text-[#1d1d1f]">Key 1</h1>
+            <p id="selected-control-sub" class="text-xs text-[#86868b] font-medium mt-0.5">Layer 1 &bull; Action Mapping</p>
+          </div>
+          <button type="button" class="flex items-center space-x-1.5 px-4 py-2 rounded-full border border-black/[0.08] hover:bg-black/[0.04] text-[#515154] text-xs font-semibold transition active:scale-95">
+            <svg class="w-3.5 h-3.5 text-[#86868b]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+            <span>Reset</span>
+          </button>
+        </div>
+
+        <!-- Segmented Action Type Tabs (Fully Rounded) -->
+        <div>
+          <div class="grid grid-cols-4 gap-2 bg-black/[0.04] p-1.5 rounded-full">
+            <button type="button" id="tab-macro" class="action-tab flex items-center justify-center space-x-1.5 py-2 rounded-full text-xs font-bold transition bg-white text-[#0071e3] shadow-sm">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+              <span>Key / Macro</span>
+            </button>
+            <button type="button" id="tab-media" class="action-tab flex items-center justify-center space-x-1.5 py-2 rounded-full text-xs font-bold transition text-[#6e6e73] hover:text-[#1d1d1f]">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+              <span>Media</span>
+            </button>
+            <button type="button" id="tab-mouse" class="action-tab flex items-center justify-center space-x-1.5 py-2 rounded-full text-xs font-bold transition text-[#6e6e73] hover:text-[#1d1d1f]">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5M7.188 2.239l.777 2.897M5.136 7.965l-2.898-.777M13.95 4.05l-2.122 2.122m-5.657 5.656l-2.12 2.122"/></svg>
+              <span>Mouse</span>
+            </button>
+            <button type="button" id="tab-disabled" class="action-tab flex items-center justify-center space-x-1.5 py-2 rounded-full text-xs font-bold transition text-[#6e6e73] hover:text-[#1d1d1f]">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636"/></svg>
+              <span>Disabled</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- ==================================== -->
+        <!-- Tab 1: Key / Macro Sequence Panel    -->
+        <!-- ==================================== -->
+        <div id="panel-macro" class="space-y-5">
+          <!-- Interactive "Press to Record" Keystroke Capture -->
+          <div class="py-3 px-4 rounded-2xl bg-blue-50/70 space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="text-sm font-semibold text-[#0071e3] flex items-center space-x-2">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5M7.188 2.239l.777 2.897M5.136 7.965l-2.898-.777M13.95 4.05l-2.122 2.122m-5.657 5.656l-2.12 2.122"/></svg>
+                <span>Click &amp; Press Shortcut on Keyboard</span>
+              </span>
+              <span class="text-xs text-blue-600 font-semibold">Live Capture</span>
+            </div>
+            <input type="text" id="live-record-input" placeholder="Click here and press shortcut (e.g. ⌘C, ⌥Space)..." readonly class="w-full text-sm font-semibold px-4 py-2.5 rounded-full border border-blue-200 bg-white text-[#1d1d1f] placeholder-blue-400 outline-none focus:ring-2 focus:ring-blue-500 cursor-pointer text-center shadow-sm">
+          </div>
+
+          <!-- Keystrokes List Header -->
+          <div class="flex items-center justify-between pt-1">
+            <span class="text-xs font-bold text-[#6e6e73] uppercase tracking-wider">Keystroke Steps</span>
+            <button type="button" class="flex items-center space-x-1 text-xs font-bold text-[#0071e3] hover:underline">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+              <span>Add Step</span>
+            </button>
+          </div>
+
+          <!-- Dynamic Steps List -->
+          <div id="keystrokes-list" class="space-y-2.5 max-h-56 overflow-y-auto pr-1"></div>
+
+          <!-- Quick Text Shorthand -->
+          <div class="pt-3 pb-1 space-y-2 border-t border-black/[0.06]">
+            <span class="text-xs font-bold text-[#6e6e73]">Text String Shorthand</span>
+            <div class="flex items-center space-x-2">
+              <input type="text" id="quick-text-input" placeholder="Type text phrase (e.g. git status, Hello World)..." class="flex-1 text-sm px-4 py-2 rounded-full border border-black/[0.08] bg-white outline-none focus:border-[#0071e3]">
+              <button type="button" class="px-5 py-2 bg-[#1d1d1f] hover:bg-[#2d2d30] text-white text-xs font-semibold rounded-full transition shadow-sm">Apply</button>
+            </div>
+          </div>
+
+          <!-- Inter-Key Delay & Progress Bar -->
+          <div class="pt-2 space-y-2">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center space-x-2 text-xs font-semibold text-[#6e6e73]">
+                <span>Inter-key delay:</span>
+                <input type="number" id="inter-key-delay" min="0" max="1000" step="10" value="40" class="w-18 text-xs font-bold px-3 py-1 border border-black/[0.08] rounded-full text-center bg-white">
+                <span>ms</span>
+              </div>
+              <span id="keystroke-count" class="text-xs text-[#86868b] font-medium">1 of 27 keystrokes</span>
+            </div>
+            <div class="w-full bg-black/[0.05] h-2 rounded-full overflow-hidden">
+              <div id="macro-progress-bar" class="bg-[#0071e3] h-full rounded-full transition-all duration-300" style="width: 4%;"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ==================================== -->
+        <!-- Tab 2: Media Controls Panel          -->
+        <!-- ==================================== -->
+        <div id="panel-media" class="hidden space-y-4">
+          <span class="text-xs font-bold text-[#6e6e73] uppercase tracking-wider block">Consumer HID Media Actions</span>
+          <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
+            <button type="button" data-action="play_pause" class="media-btn p-4 rounded-2xl border border-black/[0.08] hover:border-[#0071e3] flex flex-col items-center justify-center transition bg-white text-[#1d1d1f] shadow-sm group">
+              <svg class="w-6 h-6 text-[#1d1d1f] group-hover:text-[#0071e3] mb-2 transition" fill="currentColor" viewBox="0 0 24 24"><path d="M4 5h3v14H4zm13 0h3v14h-3zM9 5l10 7-10 7z"/></svg>
+              <span class="text-xs font-bold">Play / Pause</span>
+            </button>
+            <button type="button" data-action="next_track" class="media-btn p-4 rounded-2xl border border-black/[0.08] hover:border-[#0071e3] flex flex-col items-center justify-center transition bg-white text-[#1d1d1f] shadow-sm group">
+              <svg class="w-6 h-6 text-[#1d1d1f] group-hover:text-[#0071e3] mb-2 transition" fill="currentColor" viewBox="0 0 24 24"><path d="M4 5l9 7-9 7V5zm10 0l9 7-9 7V5zm6 0h2v14h-2z"/></svg>
+              <span class="text-xs font-bold">Next Track</span>
+            </button>
+            <button type="button" data-action="prev_track" class="media-btn p-4 rounded-2xl border border-black/[0.08] hover:border-[#0071e3] flex flex-col items-center justify-center transition bg-white text-[#1d1d1f] shadow-sm group">
+              <svg class="w-6 h-6 text-[#1d1d1f] group-hover:text-[#0071e3] mb-2 transition" fill="currentColor" viewBox="0 0 24 24"><path d="M2 5h2v14H2zm4 7l9-7v14l-9-7zm10 0l9-7v14l-9-7z"/></svg>
+              <span class="text-xs font-bold">Prev Track</span>
+            </button>
+            <button type="button" data-action="volume_up" class="media-btn p-4 rounded-2xl border border-black/[0.08] hover:border-[#0071e3] flex flex-col items-center justify-center transition bg-white text-[#1d1d1f] shadow-sm group">
+              <svg class="w-6 h-6 text-[#1d1d1f] group-hover:text-[#0071e3] mb-2 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M11 5L6 9H2v6h4l5 4V5z"/></svg>
+              <span class="text-xs font-bold">Volume Up</span>
+            </button>
+            <button type="button" data-action="volume_down" class="media-btn p-4 rounded-2xl border border-black/[0.08] hover:border-[#0071e3] flex flex-col items-center justify-center transition bg-white text-[#1d1d1f] shadow-sm group">
+              <svg class="w-6 h-6 text-[#1d1d1f] group-hover:text-[#0071e3] mb-2 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072M11 5L6 9H2v6h4l5 4V5z"/></svg>
+              <span class="text-xs font-bold">Volume Down</span>
+            </button>
+            <button type="button" data-action="mute" class="media-btn p-4 rounded-2xl border border-black/[0.08] hover:border-[#0071e3] flex flex-col items-center justify-center transition bg-white text-[#1d1d1f] shadow-sm group">
+              <svg class="w-6 h-6 text-[#1d1d1f] group-hover:text-[#0071e3] mb-2 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 14l4-4m0 4l-4-4"/></svg>
+              <span class="text-xs font-bold">Mute</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- ==================================== -->
+        <!-- Tab 3: Mouse Events Panel            -->
+        <!-- ==================================== -->
+        <div id="panel-mouse" class="hidden space-y-4">
+          <span class="text-xs font-bold text-[#6e6e73] uppercase tracking-wider block">Mouse Clicks &amp; Scroll Wheel</span>
+          <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
+            <button type="button" data-action="lclick" class="mouse-btn p-4 rounded-2xl border border-black/[0.08] hover:border-[#0071e3] flex flex-col items-center justify-center transition bg-white text-[#1d1d1f] shadow-sm group">
+              <svg class="w-6 h-6 text-[#1d1d1f] group-hover:text-[#0071e3] mb-1.5 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect x="6" y="3" width="12" height="18" rx="6" stroke-width="2"/><path d="M12 3v6M6 9h6" stroke-width="2"/><path d="M6 9h6V3c-3.314 0-6 2.686-6 6z" fill="#0071e3" fill-opacity="0.3"/></svg>
+              <span class="text-xs font-bold">Left Click</span>
+              <span class="text-[11px] text-[#6e6e73]">Primary</span>
+            </button>
+            <button type="button" data-action="rclick" class="mouse-btn p-4 rounded-2xl border border-black/[0.08] hover:border-[#0071e3] flex flex-col items-center justify-center transition bg-white text-[#1d1d1f] shadow-sm group">
+              <svg class="w-6 h-6 text-[#1d1d1f] group-hover:text-[#0071e3] mb-1.5 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect x="6" y="3" width="12" height="18" rx="6" stroke-width="2"/><path d="M12 3v6M12 9h6" stroke-width="2"/><path d="M12 9h6V3c3.314 0 6 2.686 6 6z" fill="#0071e3" fill-opacity="0.3"/></svg>
+              <span class="text-xs font-bold">Right Click</span>
+              <span class="text-[11px] text-[#6e6e73]">Secondary</span>
+            </button>
+            <button type="button" data-action="mclick" class="mouse-btn p-4 rounded-2xl border border-black/[0.08] hover:border-[#0071e3] flex flex-col items-center justify-center transition bg-white text-[#1d1d1f] shadow-sm group">
+              <svg class="w-6 h-6 text-[#1d1d1f] group-hover:text-[#0071e3] mb-1.5 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect x="6" y="3" width="12" height="18" rx="6" stroke-width="2"/><rect x="10.5" y="6" width="3" height="6" rx="1.5" fill="#0071e3" stroke-width="1.5"/></svg>
+              <span class="text-xs font-bold">Mid Click</span>
+              <span class="text-[11px] text-[#6e6e73]">Wheel Press</span>
+            </button>
+            <button type="button" data-action="wheel_up" class="mouse-btn p-4 rounded-2xl border border-black/[0.08] hover:border-[#0071e3] flex flex-col items-center justify-center transition bg-white text-[#1d1d1f] shadow-sm group">
+              <svg class="w-6 h-6 text-[#1d1d1f] group-hover:text-[#0071e3] mb-1.5 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect x="6" y="3" width="12" height="18" rx="6" stroke-width="2"/><path d="M12 11V6m0 0l-2 2m2-2l2 2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              <span class="text-xs font-bold">Wheel Up</span>
+            </button>
+            <button type="button" data-action="wheel_down" class="mouse-btn p-4 rounded-2xl border border-black/[0.08] hover:border-[#0071e3] flex flex-col items-center justify-center transition bg-white text-[#1d1d1f] shadow-sm group">
+              <svg class="w-6 h-6 text-[#1d1d1f] group-hover:text-[#0071e3] mb-1.5 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect x="6" y="3" width="12" height="18" rx="6" stroke-width="2"/><path d="M12 7v5m0 0l-2-2m2 2l2-2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              <span class="text-xs font-bold">Wheel Down</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- ==================================== -->
+        <!-- Tab 4: Disabled Panel                -->
+        <!-- ==================================== -->
+        <div id="panel-disabled" class="hidden p-8 rounded-2xl bg-black/[0.03] text-center space-y-2">
+          <div class="w-12 h-12 mx-auto rounded-full bg-black/[0.05] flex items-center justify-center text-[#86868b] font-bold text-lg">&#8856;</div>
+          <h2 class="text-base font-bold text-[#1d1d1f]">Control is Disabled</h2>
+          <p class="text-xs text-[#86868b] max-w-sm mx-auto">This control slot is cleared to (0x00, 0x00) upon flashing to onboard flash memory.</p>
+        </div>
+
+        <!-- ==================================== -->
+        <!-- Layer Lighting & Animation Mode      -->
+        <!-- ==================================== -->
+        <div class="pt-6 border-t border-black/[0.06] space-y-3.5">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center space-x-2">
+              <svg class="w-4 h-4 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>
+              <span class="text-sm font-bold text-[#1d1d1f]"><span id="layer-light-label">Layer 1</span> Lighting</span>
+            </div>
+
+            <!-- Unified macOS Select Component -->
+            <select id="led-effect-select" aria-label="LED Lighting Mode" class="macos-select text-xs font-semibold text-[#1d1d1f] py-1.5 pl-3.5 pr-8 rounded-full outline-none transition cursor-pointer">
+              <option value="0">Mode 0 &bull; LEDs Off</option>
+              <option value="1">Mode 1 &bull; Static Color (Always)</option>
+              <option value="2">Mode 2 &bull; Column Sweep (3➔6➔9➔12...)</option>
+              <option value="3">Mode 3 &bull; Upward Cascade (10➔7➔4➔1...)</option>
+              <option value="4">Mode 4 &bull; White Flash Under Button</option>
+            </select>
+          </div>
+
+          <!-- 8 Apple-Curated Color Swatches (Fully Rounded) -->
+          <div class="grid grid-cols-4 sm:grid-cols-8 gap-2">
+            <button type="button" data-color="off" aria-label="LED Off" class="color-swatch h-8 rounded-full bg-zinc-200 hover:bg-zinc-300 flex items-center justify-center text-xs font-semibold text-zinc-700 transition border border-black/[0.08]">Off</button>
+            <button type="button" data-color="red" aria-label="Red LED" class="color-swatch h-8 rounded-full bg-[#ff3b30] text-white flex items-center justify-center transition shadow-sm"></button>
+            <button type="button" data-color="orange" aria-label="Orange LED" class="color-swatch h-8 rounded-full bg-[#ff9500] text-white flex items-center justify-center transition shadow-sm"></button>
+            <button type="button" data-color="yellow" aria-label="Yellow LED" class="color-swatch h-8 rounded-full bg-[#ffd60a] text-zinc-900 flex items-center justify-center transition shadow-sm font-bold"></button>
+            <button type="button" data-color="green" aria-label="Green LED" class="color-swatch h-8 rounded-full bg-[#30d158] text-white flex items-center justify-center transition shadow-sm"></button>
+            <button type="button" data-color="cyan" aria-label="Cyan LED" class="color-swatch h-8 rounded-full bg-[#64d2ff] text-white flex items-center justify-center transition shadow-sm"></button>
+            <button type="button" data-color="blue" aria-label="Blue LED" class="color-swatch h-8 rounded-full bg-[#0071e3] text-white flex items-center justify-center transition shadow-sm"></button>
+            <button type="button" data-color="purple" aria-label="Purple LED" class="color-swatch h-8 rounded-full bg-[#bf5af2] text-white flex items-center justify-center transition shadow-sm"></button>
+          </div>
+        </div>
+
+      </div>
+
+    </main>
+
+  </div>
+
+  <!-- ========================================== -->
+  <!-- Floating Bottom macOS Action Island        -->
+  <!-- ========================================== -->
+  <div class="floating-bottom-island">
+    
+    <!-- Layer Segmented Switcher (Fully Rounded) -->
+    <div class="flex items-center space-x-1 bg-black/[0.06] p-1 rounded-full">
+      <span class="pl-2.5 pr-1 text-[#6e6e73] flex items-center" title="Hardware Layer Switcher" aria-label="Hardware Layer Switcher">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11l-7 4-7-4m14 4l-7 4-7-4m14-8l-7 4-7-4 7-4 7 4z"/>
+        </svg>
+      </span>
+      <button type="button" id="layer-btn-1" class="px-4 py-1.5 text-xs font-bold rounded-full transition bg-white text-[#0071e3] shadow-sm">1</button>
+      <button type="button" id="layer-btn-2" class="px-4 py-1.5 text-xs font-bold rounded-full transition text-[#515154] hover:text-[#1d1d1f]">2</button>
+      <button type="button" id="layer-btn-3" class="px-4 py-1.5 text-xs font-bold rounded-full transition text-[#515154] hover:text-[#1d1d1f]">3</button>
+    </div>
+
+    <div class="h-6 w-px bg-black/[0.12]"></div>
+
+    <!-- Read from Device Button with Intuitive Hardware-Pull Icon -->
+    <button id="btn-read" type="button" title="Read existing memory from hardware" class="flex items-center space-x-2 px-4 py-2 rounded-full border border-black/[0.08] hover:bg-black/[0.04] text-[#1d1d1f] text-xs font-bold transition active:scale-95">
+      <svg class="w-4 h-4 text-[#0071e3]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <rect x="4" y="4" width="16" height="16" rx="3" stroke-width="2"/>
+        <path d="M9 12l3-3 3 3m-3-3v8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M1 9h3m-3 6h3m16-6h3m-3 6h3M9 1v3m6-3v3m-6 16v3m6-3v3" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+      <span>Read</span>
+    </button>
+
+    <!-- Flash to Device (Active only when connected) -->
+    <button id="btn-flash" type="button" disabled title="Connect USB device to flash" class="flex items-center space-x-2 px-6 py-2 rounded-full bg-black/[0.08] text-[#86868b] opacity-60 cursor-not-allowed text-xs font-bold shadow-none transition">
+      <svg class="w-4 h-4 text-[#86868b]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+      </svg>
+      <span>Flash to Pad</span>
+    </button>
+
+  </div>
+
+  <!-- ========================================== -->
+  <!-- Fullscreen Flashing Progress Overlay       -->
+  <!-- ========================================== -->
+  <div id="flash-loader-overlay" class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-md opacity-0 pointer-events-none transition-opacity duration-300">
+    <div class="macos-card rounded-3xl p-8 max-w-sm w-full mx-4 shadow-2xl border border-white/60 flex flex-col items-center text-center space-y-5">
+      
+      <!-- Apple-style circular spinner & success indicator -->
+      <div class="relative w-16 h-16 flex items-center justify-center">
+        <svg id="flash-spinner-svg" class="w-14 h-14 animate-spin text-[#0071e3]" viewBox="0 0 24 24" fill="none">
+          <circle class="opacity-20" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="3"></circle>
+          <path class="opacity-90" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+        </svg>
+        <div id="flash-success-icon" class="hidden text-emerald-500">
+          <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+        </div>
+      </div>
+
+      <div class="space-y-1">
+        <h3 id="flash-loader-title" class="text-lg font-bold text-[#1d1d1f]">Flashing to MacroPad...</h3>
+        <p id="flash-loader-subtitle" class="text-xs text-[#86868b] font-medium">Writing configuration to onboard memory</p>
+      </div>
+
+      <!-- Realtime Progress Bar -->
+      <div class="w-full space-y-1.5">
+        <div class="w-full bg-black/[0.06] rounded-full h-2 overflow-hidden">
+          <div id="flash-progress-bar" class="bg-[#0071e3] h-full rounded-full transition-all duration-150" style="width: 0%"></div>
+        </div>
+        <div class="flex justify-between text-[11px] text-[#6e6e73] font-medium">
+          <span id="flash-stage-text">Preparing packets...</span>
+          <span id="flash-percent-text">0%</span>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>
