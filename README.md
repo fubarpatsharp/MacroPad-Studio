@@ -2,9 +2,13 @@
 
 Program the cheap **[12-key + 2-knob USB macro pad](https://www.amazon.com/dp/B0DCP4CVNL?th=1)** (VID:PID `1189:8840`, WCH CH552G/CH57x) from **Windows, macOS, or Linux** with Python.
 
+<p align="center">
+  <img src="assets/macropad.png" alt="MacroPad Hardware" width="280" />
+</p>
+
 Supports single keys, modifier combos (`ctrl+c`), plain text strings (`"hello world"`), multi-key macros (`["ctrl+a", "backspace"]`), media controls (`play_pause`, `volume_up`), mouse actions (`lclick`, `wheel_up`), per-layer LED colors/effects, and 3 independent hardware layers.
 
-Includes a **cutting-edge visual web editor** (`--gui`) inspired by native macOS/Linear designs.
+Includes a **cutting-edge visual web editor** (`--gui`) inspired by native macOS/Linear designs. Web Studio is also available online at **[macropad.fubarpatsharp.art](https://macropad.fubarpatsharp.art)** (WebHID supported in Chromium browsers).
 
 ---
 
