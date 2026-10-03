@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Program the 12-key + 2 knob macro pad (USB VID:PID 1189:8840, WCH CH552G/CH57x).
+Program the 12-key + 3-knob USB macro pad (USB VID:PID 1189:8840, WCH CH552G/CH57x, also supports 2-knob models).
 
 Cross-platform support for Windows, macOS, and Linux.
 Communicates natively via HIDAPI (driverless) with fallback to PyUSB.

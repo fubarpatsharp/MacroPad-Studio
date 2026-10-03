@@ -1,6 +1,6 @@
 # macropad
 
-Program the cheap **[12-key + 2-knob USB macro pad](https://www.amazon.com/dp/B0DCP4CVNL?th=1)** (VID:PID `1189:8840`, WCH CH552G/CH57x) from **Windows, macOS, or Linux** with Python.
+Program the cheap **[12-key + 3-knob USB macro pad](https://www.google.com/search?lr=(-lang_ru)&sca_esv=cc2a5631f86d1f6e&sxsrf=APpeQnsl1ZORtirDDEabf5_5fYR6KGx2-g:1791037355297&udm=2&fbs=ABfTbFW8uLXgQmCcJ96eBc1KIhY6aONly-lbvn9B1XA-QC6wnpnrG3ARMkTvirrVaMkgsB1lh1OhUdVhXCpO4jMn80fCJgX9fp-l7bdm_VRVRgwDyQJCHqBZ9w76e5P3RQPG4kBiR6Yog6iDHEbbQcsytxXfigFUnWAe5NB1ZYn0waUwydXIjkhd1mQR3QgFMU98RDPe4gJwkE-6aOJkzld9FBmfDZt7MLGIL6V6YcNhRBTV_AJTAvs&q=12-key+%2B+3-knob+USB+macro+pad&sa=X&ved=2ahUKEwjx092Khp6XAxXMUXcKHfFzBgUQtKgLegQIGhAB&biw=1810&bih=1022&dpr=1.25)** (VID:PID `1189:8840`, WCH CH552G/CH57x, compatible with both 3-knob and 2-knob variants) from **Windows, macOS, or Linux** with Python.
 
 <p align="center">
   <img src="assets/macropad.png" alt="MacroPad Hardware" width="280" />
@@ -40,7 +40,7 @@ python program_macropad.py --gui
 ```
 
 Features:
-* Interactive visual layout of the 12 keycaps and 2 rotary encoders.
+* Interactive visual layout of the 12 keycaps and 3 rotary encoders.
 * Live read from hardware memory and instant 1-click flashing to flash.
 * Action Type switch: Macro, Media, Mouse, or Disabled.
 * Macro sequence builder with modifier badges and quick text phrase input.
@@ -83,7 +83,10 @@ Each layer maps control names to key combos, text strings, media actions, or mou
       "knob1_press": "mclick",
       "knob2_left": "volume_down",
       "knob2_right": "volume_up",
-      "knob2_press": "mute"
+      "knob2_press": "mute",
+      "knob3_left": "wheel_down",
+      "knob3_right": "wheel_up",
+      "knob3_press": "ctrl+0"
     }
   }
 }
@@ -94,8 +97,9 @@ Each layer maps control names to key combos, text strings, media actions, or mou
 | Control Name | Hardware Target |
 |:---|:---|
 | `key1` &ndash; `key12` | The 12 main keys (3 rows &times; 4 columns) |
-| `knob1_left`, `knob1_press`, `knob1_right` | First rotary encoder (Top) |
-| `knob2_left`, `knob2_press`, `knob2_right` | Second rotary encoder (Bottom) |
+| `knob1_left`, `knob1_press`, `knob1_right` | First rotary encoder (Hero / Left) |
+| `knob2_left`, `knob2_press`, `knob2_right` | Second rotary encoder (Center) |
+| `knob3_left`, `knob3_press`, `knob3_right` | Third rotary encoder (Right) |
 
 ### Action Types
 
